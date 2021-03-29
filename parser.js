@@ -56,7 +56,7 @@ const regex = {
 
 // Regex to discard the useless first part
 const splitRgx = new RegExp(
-  `^FM SISTEMA DI GESTIONE[\s\S]*?(?=${regex.gdo
+  `^FM SISTEMA DI GESTIONE[\\s\\S]*?(?=${regex.gdo
     .toString()
     .replace(/(?<!\\)\/(?:\w*$)?/g, '')}$)`,
   'm'
@@ -95,7 +95,7 @@ const generateTableHead = (table, data) => {
   }
 }
 
-// (object of row elements) => new row in table body &&
+// (object of row elements) => new row in table body,
 //                             table head if called for the 1st time
 const generateTable = data => {
   const table = document.querySelector('table')
