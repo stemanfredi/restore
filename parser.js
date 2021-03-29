@@ -54,23 +54,26 @@ const regex = {
   distruzione: /(?<=^DISTRUZIONE\/).*?(?=\/*\r?\nBT)/m,
 }
 
-// To discard the useless first part
+// Regex to discard the useless first part
 const splitRgx = new RegExp(
-  `^FM SISTEMA DI GESTIONE\r?\n(?:.+\r?\n)+(?=${regex.gdo
+  `^FM SISTEMA DI GESTIONE[\s\S]*?(?=${regex.gdo
     .toString()
-    .replace(/(?<!\\)\/(?:\w*$)?/g, '')}\r?\n)`,
+    .replace(/(?<!\\)\/(?:\w*$)?/g, '')}$)`,
   'm'
 )
 
+// (RegExp, string) => matched substring || null
 const matchRegex = (re, msg) => (re.test(msg) ? re.exec(msg)[0] : null)
 
+// (string) => object of matched substrings
 const parse = msg => {
   const splitMsg = splitRgx.test(msg) ? msg.split(splitRgx)[1] : msg
   const record = {}
-  for (const prop in regex) record[prop] = matchRegex(regex[prop], splitMsg)
+  for (const key in regex) record[key] = matchRegex(regex[key], splitMsg)
   return record
 }
 
+// (html table element, object of row elements) => new row in table body
 const generateTableBody = (table, data) => {
   const row = table.insertRow()
   for (const key in data) {
@@ -80,6 +83,7 @@ const generateTableBody = (table, data) => {
   }
 }
 
+// (html table element, array of column names) => table head
 const generateTableHead = (table, data) => {
   const thead = table.createTHead()
   const row = thead.insertRow()
@@ -91,6 +95,8 @@ const generateTableHead = (table, data) => {
   }
 }
 
+// (object of row elements) => new row in table body &&
+//                             table head if called for the 1st time
 const generateTable = data => {
   const table = document.querySelector('table')
   generateTableBody(table, data)
@@ -100,13 +106,16 @@ const generateTable = data => {
 // Select the input
 const fileUploader = document.getElementById('file-uploader')
 
+// Create array of input files
 fileUploader.addEventListener('change', event => {
   const files = Array.from(event.target.files)
 
+  // Read content of each file
   for (const file of files) {
     const reader = new FileReader()
     reader.readAsText(file, 'UTF-8')
 
+    // Process file text and output to table
     reader.addEventListener('load', event => {
       const msg = event.target.result
       generateTable(parse(msg))
