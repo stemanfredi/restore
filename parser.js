@@ -11,10 +11,10 @@ const regex = {
   gdo: /^(?:[RPOZ]\s){1,2}\d{6}\w\s\w{3}\s\d{2}/m,
   from: /(?<=^FM\s)[\s\S]*?(?=\r?\nTO)/m,
   to: /(?<=^TO\s)[\s\S]*?(?=\r?\nINFO)/m,
-  info: /(?<=^INFO\s)[\s\S]*?(?=\r?\nBT$)/m,
-  classifica: /(?<=^BT\r?\n).+/m,
-  sic: /(?<=^SIC\s).+/m,
-  protocollo: /(?<=^SIC\s.{3,}\r?\n).+/m,
+  info: /(?<=^INFO\s)[\s\S]*?(?=\r?\n(?:BT|R I S E R V A T O|NON CLASSIFICATO)$)/m,
+  classifica: /.+(?=\r?\nSIC\s\S{3,})/m,
+  sic: /(?<=^SIC\s)\S{3,}/m,
+  protocollo: /(?<=^SIC\s\S{3,}\r?\n).+/m,
   exer: /(?<=^EXER\/)[\s\S]*?(?=\/*$)/m,
   oper: /(?<=^OPER\/)[\s\S]*?(?=\/*$)/m,
   mtfId: /(?<=^MSGID\/)[^\/]+/m,
@@ -56,7 +56,10 @@ const regex = {
   declassifica: /^DECLASSIFICARE\s.*?(?=\/*\r?\n)/m,
 }
 
-// Regex to check message text format id and discard the useless first part
+// Additional regex to:
+// - check message text format id
+// - discard 'FM SISTEMA DI GESTIONE' part
+// - discard '############### SECTION X OF Y ###############'
 const auxRgx = {
   mtfId: /^MSGID\/AVREP\s/m,
   split: new RegExp(
@@ -65,6 +68,7 @@ const auxRgx = {
       .replace(/(?<!\\)\/(?:\w*$)?/g, '')}$)`,
     'm'
   ),
+  delim: /^#+(?: FINAL)? SECTION(?: \w+)? OF \w+ #+\r?\n/gm,
 }
 
 // (RegExp, string) => matched substring || null
@@ -72,9 +76,10 @@ const matchRegex = (re, msg) => (re.test(msg) ? re.exec(msg)[0] : null)
 
 // (string) => object of matched substrings
 const parse = msg => {
-  const splitMsg = auxRgx.split.test(msg) ? msg.split(auxRgx.split)[1] : msg
+  let msgRev = auxRgx.split.test(msg) ? msg.split(auxRgx.split)[1] : msg
+  if (auxRgx.delim.test(msgRev)) msgRev = msgRev.replace(auxRgx.delim, '')
   const record = {}
-  for (const key in regex) record[key] = matchRegex(regex[key], splitMsg)
+  for (const key in regex) record[key] = matchRegex(regex[key], msgRev)
   return record
 }
 
