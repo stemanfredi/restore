@@ -30,9 +30,9 @@ const regex = {
   tipoEvento: /(?<=^SERV\/(?:[^\/]+\/){5})[^\/]+/m,
   siglaEC: /(?<=^AVARIA\/)[^\/]+/m,
   posizioneEC: /(?<=^AVARIA\/[^\/]+\/)[^\/]*/m,
-  nomeEC: /(?<=^AVARIA\/(?:[^\/]*\/){2}(?:\r?\n)?)[^\r\n]{2}[^\/]+/m,
-  funzionamEC: /(?<=^AVARIA\/(?:[^\/]+\/){3}(?:\r?\n)?)[^\r\n]{2}[^\/]+/m,
-  eS: /^\s*AMP\/DENOMINAZIONE E\.S\.:[\s\S]*?(?=\r?\n\s*AMP\/SINTOMATOLOGIA:)/m,
+  nomeEC: /(?<=^AVARIA\/(?:[^\/]*\/){2}(?:\r?\n)?)[^\r\n\/]+/m,
+  funzionamEC: /(?<=^AVARIA\/(?:[^\/]+\/){3}(?:\r?\n)?)[^\r\n\/]+/m,
+  eS: /(?<=\r?\n)\s*AMP\/DENOMINAZIONE E\.S\.:[\s\S]*?(?=\r?\n\s*AMP\/SINTOMATOLOGIA:)/m,
   sintomi: /(?<=^\s*AMP\/SINTOMATOLOGIA:\r?\n)[\s\S]*?(?=\/*\r?\nRIPAR\/)/m,
   luogoRipar: /(?<=^RIPAR\/)[^\/]+/m,
   gdoRipar: /(?<=^RIPAR\/[^\/]+\/)[^\/]+/m,
@@ -44,30 +44,35 @@ const regex = {
   pdrPrev: /^PDRPREV\/[\s\S]*?(?=\r?\n(?:PDRUTIL|VAREFF)\/)/m,
   pdrUtil: /^PDRUTIL\/[\s\S]*?(?=\r?\nVAREFF\/)/m,
   varEff: /(?<=^VAREFF\/).*?(?=\/*$)/m,
-  effetti: /(?<=^RMKS\/DESCRIZIONE EFFETTI AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:NATURA E CAUSA AVARIA:$|\s*DENOMINAZIONE ES:\s|COMMENTI:$|SIGA\/))/m,
-  natura: /(?<=^NATURA E CAUSA AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:\s*DENOMINAZIONE ES:\s|COMMENTI:$|SIGA\/))/m,
-  eSRiparati: /^\s*DENOMINAZIONE ES:\s[\s\S]*?(?=\r?\n(?:COMMENTI:$|SIGA\/))/m,
+  effetti: /(?<=^RMKS\/DESCRIZIONE EFFETTI AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:NATURA E CAUSA AVARIA:$|\s*DENOMINAZIONE (?:EC|ES):\s|COMMENTI:$|SIGA\/))/m,
+  natura: /(?<=^NATURA E CAUSA AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:\s*DENOMINAZIONE (?:EC|ES):\s|COMMENTI:$|SIGA\/))/m,
+  eCRiparato: /(?<=\r?\n)\s*DENOMINAZIONE EC:\s[\s\S]*?(?=\+?\/*\r?\n(?:\s*DENOMINAZIONE ES:\s|COMMENTI:$|SIGA\/))/m,
+  eSRiparati: /(?<=\r?\n)\s*DENOMINAZIONE ES:\s[\s\S]*?(?=\r?\n(?:COMMENTI:$|SIGA\/))/m,
   commenti: /(?<=^COMMENTI:\r?\n)[\s\S]*?(?=\/*\r?\nSIGA\/)/m,
   siga: /(?<=^SIGA\/)[\s\S]*?(?=\/{2}\r?\n)/m,
   geva: /(?<=^GEVA\/).*?(?=\/*\r?\nP\.D\.C\.:\s)/m,
-  pdc: /(?<=^P\.D\.C\.:\s)[\s\S]*?(?=\/*\r?\nDISTRUZIONE)/m,
-  distruzione: /(?<=^DISTRUZIONE\/).*?(?=\/*\r?\nBT)/m,
+  pdc: /(?<=^P\.D\.C\.:\s)[\s\S]*?(?=\/*\r?\n)/m,
+  distruzione: /(?<=^DISTRUZIONE\/|^DISTRUGGERE IL ).*?(?=\/*\r?\n)/m,
+  declassifica: /^DECLASSIFICARE .+/m,
 }
 
-// Regex to discard the useless first part
-const splitRgx = new RegExp(
-  `^FM SISTEMA DI GESTIONE[\\s\\S]*?(?=${regex.gdo
-    .toString()
-    .replace(/(?<!\\)\/(?:\w*$)?/g, '')}$)`,
-  'm'
-)
+// Regex to check message text format id and discard the useless first part
+const auxRgx = {
+  mtfId: /^MSGID\/AVREP\s/m,
+  split: new RegExp(
+    `^FM SISTEMA DI GESTIONE[\\s\\S]*?(?=${regex.gdo
+      .toString()
+      .replace(/(?<!\\)\/(?:\w*$)?/g, '')}$)`,
+    'm'
+  ),
+}
 
 // (RegExp, string) => matched substring || null
 const matchRegex = (re, msg) => (re.test(msg) ? re.exec(msg)[0] : null)
 
 // (string) => object of matched substrings
 const parse = msg => {
-  const splitMsg = splitRgx.test(msg) ? msg.split(splitRgx)[1] : msg
+  const splitMsg = auxRgx.split.test(msg) ? msg.split(auxRgx.split)[1] : msg
   const record = {}
   for (const key in regex) record[key] = matchRegex(regex[key], splitMsg)
   return record
@@ -118,7 +123,7 @@ fileUploader.addEventListener('change', event => {
     // Process file text and output to table
     reader.addEventListener('load', event => {
       const msg = event.target.result
-      generateTable(parse(msg))
+      if (auxRgx.mtfId.test(msg)) generateTable(parse(msg))
     })
   }
 })
