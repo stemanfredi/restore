@@ -53,7 +53,7 @@ const regex = {
   geva: /(?<=^GEVA\/).*?(?=\/*\r?\nP\.D\.C\.:\s)/m,
   pdc: /(?<=^P\.D\.C\.:\s)[\s\S]*?(?=\/*\r?\n)/m,
   distruzione: /(?<=^DISTRUZIONE\/|^DISTRUGGERE IL ).*?(?=\/*\r?\n)/m,
-  declassifica: /^DECLASSIFICARE .+/m,
+  declassifica: /^DECLASSIFICARE\s.*?(?=\/*\r?\n)/m,
 }
 
 // Regex to check message text format id and discard the useless first part
