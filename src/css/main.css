@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&family=Source+Code+Pro:wght@300;400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  --color-primary: #333;
+  --color-secondary: #ddd;
+  --color-background: #fff;
+  --color-table: #bbb;
+  --color-input: #eee;
+  --color-highlight: #009579;
+  --color-highlight-dark: #007f67;
+  --border-radius: 4px;
+
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+/* ------------------------------------------------------ */
+/* LOGIN FORM */
+/* ------------------------------------------------------ */
+
+.wall {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+}
+
+.container {
+  width: 400px;
+  max-width: 400px;
+  margin: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+  background-color: var(--color-background);
+}
+
+.container,
+.form__input,
+.form__button {
+  font: 500 1rem 'Quicksand', sans-serif;
+}
+
+.form__title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form__button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--color-background);
+  border: none;
+  border-radius: var(--border-radius);
+  outline: none;
+  cursor: pointer;
+  background-color: var(--color-highlight);
+}
+
+.form__button:hover {
+  background-color: var(--color-highlight-dark);
+}
+
+.form__input--group {
+  margin-bottom: 1rem;
+}
+
+.form > *:first-child {
+  margin-top: 0;
+}
+
+.form > *:last-child {
+  margin-bottom: 0;
+}
+
+.form__input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-secondary);
+  outline: none;
+  background: var(--color-input);
+}
+
+.form__input:focus {
+  border-color: var(--color-highlight);
+  background-color: var(--color-background);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: var(--color-background);
+  background-color: var(--color-primary);
+  padding: 0 1rem;
+  font-weight: 500;
+}
+
+.nav__link {
+  float: left;
+  padding: 0.6rem;
+  text-decoration: none;
+}
+
+.nav__link:link,
+.nav__link:visited {
+  color: var(--color-background);
+}
+
+.nav__link:hover,
+.nav__link:active {
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+}
+
+.view {
+  margin: 4rem 1.6rem 1.6rem 1.6rem;
+}
+
+.view--hidden {
+  display: none;
+}
+
+#view--importa input {
+  margin-bottom: 1.4rem;
+}
+
+table,
+th,
+td {
+  white-space: pre;
+  font-size: 95%;
+  font-family: 'Source Code Pro', monospace;
+  border: 1px solid var(--color-table);
+  border-collapse: collapse;
+}
+
+th {
+  background-color: var(--color-secondary);
+}
+
+td {
+  vertical-align: top;
+}

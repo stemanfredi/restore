@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/css/main.css" />
+    <link rel="icon" href="src/icons/construct-outline.svg" />
+    <title>Restore</title>
+  </head>
+  <body>
+    <nav class="nav view--hidden">
+      <a href="#" class="nav__link" id="link--ricerca" data-link>Ricerca</a>
+      <a href="#" class="nav__link" id="link--compila" data-link>Compila</a>
+      <a href="#" class="nav__link" id="link--importa" data-link>Importa</a>
+      <a href="#" class="nav__link" id="link--esporta" data-link>Esporta</a>
+    </nav>
+
+    <div class="wall">
+      <div class="container">
+        <form action="" class="form" id="login">
+          <h1 class="form__title">Login</h1>
+
+          <div class="form__input--group">
+            <input
+              type="text"
+              class="form__input"
+              id="username"
+              autofocus
+              placeholder="Username"
+            />
+          </div>
+
+          <div class="form__input--group">
+            <input
+              type="password"
+              class="form__input"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+
+          <button class="form__button" type="submit">Accedi</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="view view--hidden" id="view--ricerca">
+      <p>TODO</p>
+      <p>Ricerca parametrica dei documenti salvati</p>
+    </div>
+
+    <div class="view view--hidden" id="view--compila">
+      <p>TODO</p>
+      <p>Nuovi documenti: compilazione, salvataggio, validazione, download</p>
+    </div>
+
+    <div class="view view--hidden" id="view--importa">
+      <input type="file" id="file-uploader" accept=".txt" multiple />
+      <table></table>
+    </div>
+
+    <div class="view view--hidden" id="view--esporta">
+      <p>TODO</p>
+      <p>Esportazione del database in json</p>
+    </div>
+
+    <script src="src/js/main.js"></script>
+    <script src="src/js/parser.js"></script>
+  </body>
+</html>
