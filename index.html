@@ -4,18 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/css/main.css" />
-    <link rel="icon" href="src/icons/construct-outline.svg" />
+    <link rel="icon" href="./src/favicon.svg" />
+    <link rel="stylesheet" href="./src/style.css" />
     <title>Restore</title>
   </head>
   <body>
-    <nav class="nav view--hidden">
-      <a href="#" class="nav__link" id="link--ricerca" data-link>Ricerca</a>
-      <a href="#" class="nav__link" id="link--compila" data-link>Compila</a>
-      <a href="#" class="nav__link" id="link--importa" data-link>Importa</a>
-      <a href="#" class="nav__link" id="link--esporta" data-link>Esporta</a>
-    </nav>
 
+    <!-- LOGIN SCREEN -->
     <div class="wall">
       <div class="container">
         <form action="" class="form" id="login">
@@ -45,27 +40,42 @@
       </div>
     </div>
 
-    <div class="view view--hidden" id="view--ricerca">
-      <p>TODO</p>
+    <!-- NAVIGATION BAR -->
+    <nav class="hidden">
+      <a href="#" data-link="view--ricerca">Ricerca</a>
+      <a href="#" data-link="view--compila">Compila</a>
+      <a href="#" data-link="view--importa">Importa</a>
+      <a href="#" data-link="view--esporta">Esporta</a>
+    </nav>
+
+    <!-- VIEWS -->
+    <div class="view hidden" id="view--ricerca">
+      <p><h2>TODO</h2></p>
       <p>Ricerca parametrica dei documenti salvati</p>
+      <h2>Specifiche di IndexedDB</h2>
+      <p>
+        <a href="https://www.w3.org/TR/IndexedDB/"
+          >https://www.w3.org/TR/IndexedDB/</a
+        >
+      </p>
     </div>
 
-    <div class="view view--hidden" id="view--compila">
-      <p>TODO</p>
+    <div class="view hidden" id="view--compila">
+      <p><h2>TODO</h2></p>
       <p>Nuovi documenti: compilazione, salvataggio, validazione, download</p>
     </div>
 
-    <div class="view view--hidden" id="view--importa">
+    <div class="view hidden" id="view--importa">
       <input type="file" id="file-uploader" accept=".txt" multiple />
       <table></table>
     </div>
 
-    <div class="view view--hidden" id="view--esporta">
-      <p>TODO</p>
+    <div class="view hidden" id="view--esporta">
+      <p><h2>TODO</h2></p>
       <p>Esportazione del database in json</p>
     </div>
 
-    <script src="src/js/main.js"></script>
-    <script src="src/js/parser.js"></script>
+    <script src="./src/script.js"></script>
+    <script src="./src/parser.js"></script>
   </body>
 </html>

@@ -111,19 +111,19 @@ nav {
   font-weight: 500;
 }
 
-.nav__link {
+nav a {
   float: left;
   padding: 0.6rem;
   text-decoration: none;
 }
 
-.nav__link:link,
-.nav__link:visited {
+nav a:link,
+nav a:visited {
   color: var(--color-background);
 }
 
-.nav__link:hover,
-.nav__link:active {
+nav a:hover,
+nav a:active {
   color: var(--color-primary);
   background-color: var(--color-secondary);
 }
@@ -132,7 +132,7 @@ nav {
   margin: 4rem 1.6rem 1.6rem 1.6rem;
 }
 
-.view--hidden {
+.hidden {
   display: none;
 }
 
