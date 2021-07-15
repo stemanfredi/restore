@@ -128,6 +128,10 @@ nav a:active {
   background-color: var(--color-secondary);
 }
 
+.nav__btn--selected {
+  background-color: var(--color-highlight);
+}
+
 .view {
   margin: 4rem 1.6rem 1.6rem 1.6rem;
 }
@@ -138,6 +142,12 @@ nav a:active {
 
 #view--importa input {
   margin-bottom: 1.4rem;
+}
+
+#reportForm {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--color-secondary);
 }
 
 table,

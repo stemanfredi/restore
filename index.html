@@ -9,7 +9,6 @@
     <title>Restore</title>
   </head>
   <body>
-
     <!-- LOGIN SCREEN -->
     <div class="wall">
       <div class="container">
@@ -42,36 +41,92 @@
 
     <!-- NAVIGATION BAR -->
     <nav class="hidden">
-      <a href="#" data-link="view--ricerca">Ricerca</a>
-      <a href="#" data-link="view--compila">Compila</a>
-      <a href="#" data-link="view--importa">Importa</a>
-      <a href="#" data-link="view--esporta">Esporta</a>
+      <a href="#" class="nav__btn nav__btn--selected" data-link="view--ricerca"
+        >Ricerca</a
+      >
+      <a href="#" class="nav__btn" data-link="view--compila">Compila</a>
+      <a href="#" class="nav__btn" data-link="view--importa">Importa</a>
+      <a href="#" class="nav__btn" data-link="view--esporta">Esporta</a>
     </nav>
 
-    <!-- VIEWS -->
-    <div class="view hidden" id="view--ricerca">
-      <p><h2>TODO</h2></p>
-      <p>Ricerca parametrica dei documenti salvati</p>
+    <!-- RICERCA -->
+    <div class="view" id="view--ricerca">
       <h2>Specifiche di IndexedDB</h2>
       <p>
-        <a href="https://www.w3.org/TR/IndexedDB/"
-          >https://www.w3.org/TR/IndexedDB/</a
-        >
+        <a href="https://www.w3.org/TR/IndexedDB/">
+          https://www.w3.org/TR/IndexedDB/
+        </a>
       </p>
     </div>
 
+    <!-- COMPILA -->
     <div class="view hidden" id="view--compila">
-      <p><h2>TODO</h2></p>
-      <p>Nuovi documenti: compilazione, salvataggio, validazione, download</p>
+      <!-- TODO: 2 colonne, compila a sinistra preview a destra -->
+      <div class="view--compila__main">
+        <form name="reportForm" id="reportForm">
+          <p>
+            <label for="serv">Servizio: </label>
+            <input type="text" id="serv" value="SN" required />
+          </p>
+          <p>
+            <label for="nSeriale">Numero seriale: </label>
+            <input type="text" id="nSeriale" value="001" required />
+          </p>
+          <p>
+            <label for="tipo">Tipo: </label>
+            <input
+              type="text"
+              id="tipo"
+              placeholder="AP, AC, CH, PR"
+              value="AP"
+              required
+            />
+          </p>
+          <p>
+            <label for="nProgr">Numero progressivo: </label>
+            <input type="text" id="nProgr" value="00" required />
+          </p>
+          <p>
+            <label for="prior">Priorità: </label>
+            <input type="text" id="prior" value="R" required />
+          </p>
+          <p>
+            <label for="from">Mittente: </label>
+            <input type="text" id="from" value="Lupo" required />
+          </p>
+          <p>
+            <label for="to">Destinatario: </label>
+            <input type="text" id="to" value="Maristat" required />
+          </p>
+          <p>
+            <label for="info">Info: </label>
+            <input type="text" id="info" value="Marinalles" />
+          </p>
+          <p>
+            <label for="nomeEC">Elemento Complesso: </label>
+            <input
+              type="text"
+              id="nomeEC"
+              value="Impianto condizionamento"
+              required
+            />
+          </p>
+          <p>
+            <button id="btnSave" type="submit">Salva</button>
+            <button id="btnClear">Pulisci</button>
+          </p>
+        </form>
+      </div>
     </div>
 
+    <!-- IMPORTA -->
     <div class="view hidden" id="view--importa">
       <input type="file" id="file-uploader" accept=".txt" multiple />
       <table></table>
     </div>
 
+    <!-- ESPORTA -->
     <div class="view hidden" id="view--esporta">
-      <p><h2>TODO</h2></p>
       <p>Esportazione del database in json</p>
     </div>
 
