@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./src/favicon.svg" />
-    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="icon" href="./src/icons/construct-outline.svg" />
+    <link rel="stylesheet" href="./src/css/style.css" />
     <title>Restore</title>
   </head>
   <body>
@@ -46,7 +46,7 @@
       >
       <a href="#" class="nav__btn" data-link="view--compila">Compila</a>
       <a href="#" class="nav__btn" data-link="view--importa">Importa</a>
-      <a href="#" class="nav__btn" data-link="view--esporta">Esporta</a>
+      <a href="#" class="nav__btn" data-link="view--backup">Backup</a>
     </nav>
 
     <!-- RICERCA -->
@@ -61,9 +61,8 @@
 
     <!-- COMPILA -->
     <div class="view hidden" id="view--compila">
-      <!-- TODO: 2 colonne, compila a sinistra preview a destra -->
       <div class="view--compila__main">
-        <form name="reportForm" id="reportForm">
+        <form name="compiledForm" id="compiledForm">
           <p>
             <label for="serv">Servizio: </label>
             <input type="text" id="serv" value="SN" required />
@@ -92,7 +91,7 @@
           </p>
           <p>
             <label for="from">Mittente: </label>
-            <input type="text" id="from" value="Lupo" required />
+            <input type="text" id="from" value="Vittorio Veneto" required />
           </p>
           <p>
             <label for="to">Destinatario: </label>
@@ -121,16 +120,21 @@
 
     <!-- IMPORTA -->
     <div class="view hidden" id="view--importa">
-      <input type="file" id="file-uploader" accept=".txt" multiple />
-      <table></table>
+      <form id="importForm">
+        <input type="file" id="file-uploader" accept=".txt" multiple />
+        <label for="btnImport">Salva nel database:</label>
+        <button id="btnImport" type="submit">Salva</button>
+      </form>
+
+      <table id="import__table"></table>
     </div>
 
-    <!-- ESPORTA -->
-    <div class="view hidden" id="view--esporta">
-      <p>Esportazione del database in json</p>
+    <!-- BACKUP -->
+    <div class="view hidden" id="view--backup">
+      <p>Esportazione del database in json...</p>
     </div>
 
-    <script src="./src/script.js"></script>
-    <script src="./src/parser.js"></script>
+    <script src="./src/js/database.js"></script>
+    <script src="./src/js/main.js"></script>
   </body>
 </html>

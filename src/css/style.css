@@ -144,7 +144,7 @@ nav a:active {
   margin-bottom: 1.4rem;
 }
 
-#reportForm {
+#compiledForm {
   padding: 1rem;
   border-radius: var(--border-radius);
   background-color: var(--color-secondary);
