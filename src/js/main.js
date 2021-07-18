@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.querySelector('#password').value
     // Allow/deny access
     if (username && username === password) {
+      displayData()
       wall.classList.add('hidden')
       nav.classList.remove('hidden')
       views[0].classList.remove('hidden')
@@ -177,32 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
   /* TXT INPUT */
   /* ------------------------------------------------------ */
 
-  let imported = []
-  // Select the input
+  let imported
+  const importTable = document.getElementById('import__table')
   const fileUploader = document.getElementById('file-uploader')
 
-  // Create array of input files
+  // Fires when files have been uploaded
   fileUploader.addEventListener('change', ev => {
     imported = []
     const files = Array.from(ev.target.files)
-
     files.forEach((item, idx, array) => {
-      // FileReader object
       const reader = new FileReader()
       reader.readAsText(item, 'UTF-8')
-      // Load event on file reader
+      // Fires when file have been read
       reader.addEventListener('load', ev => {
         const msg = ev.target.result
         if (auxRgx.mtfId.test(msg)) imported.push(parse(msg))
+        // If last item of the array
+        if (idx === array.length - 1) {
+          importTable.innerHTML = ''
+          generateTable(importTable, imported)
+        }
       })
-      // When all files have been read
-      if (idx === array.length - 1) {
-        reader.addEventListener('loadend', () => {
-          const table = document.getElementById('import__table')
-          table.innerHTML = ''
-          generateTable(table, imported)
-        })
-      }
     })
   })
 
@@ -229,9 +225,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let newItem = {
       //id: serv.value + nSeriale.value + tipo.value + nProgr.value,
       serv: serv.value,
-      nSeriale: nSeriale.value,
+      nSeriale: +nSeriale.value,
       tipo: tipo.value,
-      nProgr: nProgr.value,
+      nProgr: +nProgr.value,
       prior: prior.value,
       from: from.value,
       to: to.value,
@@ -245,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     request.onsuccess = () => {
       //serv.value = ''
-      //nSeriale.value++
+      nSeriale.value++
       //tipo.value = ''
       //nProgr.value = ''
       //prior.value = ''
@@ -256,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     transaction.oncomplete = () => {
+      displayData()
       console.log('Transaction completed on the database')
     }
 
@@ -276,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         request.onsuccess = () => {}
 
         transaction.oncomplete = () => {
+          importTable.innerHTML = ''
           console.log('Transaction completed on the database')
         }
 
@@ -283,6 +281,24 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('Transaction not completed, error!')
         }
       })
+    }
+  }
+
+  const searchTable = document.querySelector('#search__table')
+
+  const displayData = () => {
+    const compiled = []
+    let objectStore = db.transaction('compiled').objectStore('compiled')
+
+    objectStore.openCursor().onsuccess = e => {
+      let cursor = e.target.result
+
+      if (cursor) {
+        compiled.unshift(cursor.value)
+        cursor.continue()
+      }
+      searchTable.innerHTML = ''
+      generateTable(searchTable, compiled)
     }
   }
 

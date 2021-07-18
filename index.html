@@ -51,12 +51,7 @@
 
     <!-- RICERCA -->
     <div class="view" id="view--ricerca">
-      <h2>Specifiche di IndexedDB</h2>
-      <p>
-        <a href="https://www.w3.org/TR/IndexedDB/">
-          https://www.w3.org/TR/IndexedDB/
-        </a>
-      </p>
+      <table id="search__table"></table>
     </div>
 
     <!-- COMPILA -->
@@ -69,7 +64,7 @@
           </p>
           <p>
             <label for="nSeriale">Numero seriale: </label>
-            <input type="text" id="nSeriale" value="001" required />
+            <input type="number" id="nSeriale" value="1" min="1" required />
           </p>
           <p>
             <label for="tipo">Tipo: </label>
@@ -83,7 +78,7 @@
           </p>
           <p>
             <label for="nProgr">Numero progressivo: </label>
-            <input type="text" id="nProgr" value="00" required />
+            <input type="number" id="nProgr" value="0" min="0" required />
           </p>
           <p>
             <label for="prior">Priorità: </label>
@@ -131,7 +126,18 @@
 
     <!-- BACKUP -->
     <div class="view hidden" id="view--backup">
-      <p>Esportazione del database in json...</p>
+      <h2>Backup</h2>
+      <p>
+        Esportazione del database in json.
+        <label for="backup"></label>
+        <button id="backup" type="submit">Crea</button>
+      </p>
+      <p>&nbsp;</p>
+      <h2>Restore</h2>
+      <p>
+        Importazione del database in json.
+        <input type="file" id="restore" accept=".json" multiple />
+      </p>
     </div>
 
     <script src="./src/js/database.js"></script>
