@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const displayData = () => {
     const compiled = []
-    let objectStore = db.transaction('compiled').objectStore('compiled')
+    let objectStore = db.transaction(['compiled']).objectStore('compiled')
 
     objectStore.openCursor().onsuccess = e => {
       let cursor = e.target.result
