@@ -2,58 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------------------------------ */
-  /* VIEW SELECTION */
-  /* ------------------------------------------------------ */
-
-  const wall = document.querySelector('.wall')
-  const loginForm = document.querySelector('#login')
-  const nav = document.querySelector('nav')
-  const navBtn = document.querySelectorAll('.nav__btn')
-  const views = document.querySelectorAll('.view')
-
-  // THIS IS NOT A TRUE LOGIN FORM!
-  loginForm.addEventListener('submit', e => {
-    e.preventDefault()
-    // Get login parameters
-    const username = document.querySelector('#username').value
-    const password = document.querySelector('#password').value
-    // Allow/deny access
-    if (username && username === password) {
-      displayData()
-      wall.classList.add('hidden')
-      nav.classList.remove('hidden')
-      views[0].classList.remove('hidden')
-    } else {
-      alert('Accesso negato')
-    }
-  })
-
-  // Navigation buttons behaviour
-  navBtn.forEach(item => {
-    item.addEventListener('click', e => {
-      e.preventDefault()
-      // Get selected view from clicked link
-      const selectedView = e.target.getAttribute('data-link')
-      // Change buttons appearance
-      navBtn.forEach(item => {
-        if (item.getAttribute('data-link') === selectedView) {
-          item.classList.add('nav__btn--selected')
-        } else {
-          item.classList.remove('nav__btn--selected')
-        }
-      })
-      // Show only selected view
-      views.forEach(item => {
-        if (item.id === selectedView) {
-          item.classList.remove('hidden')
-        } else {
-          item.classList.add('hidden')
-        }
-      })
-    })
-  })
-
-  /* ------------------------------------------------------ */
   /* TABLES */
   /* ------------------------------------------------------ */
 
@@ -203,7 +151,42 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   /* ------------------------------------------------------ */
-  /* DATABASE */
+  /* DATABASE INITIALIZATION */
+  /* ------------------------------------------------------ */
+
+  let db
+
+  // Open database 'restore' version 1
+  let request = window.indexedDB.open('restore', 1)
+
+  request.onerror = function () {
+    console.log('Database failed to open')
+  }
+
+  request.onsuccess = function () {
+    console.log('Database opened successfully')
+    db = request.result
+    displayData()
+  }
+
+  request.onupgradeneeded = function (ev) {
+    let db = ev.target.result
+    /*
+      let objectStore = db.createObjectStore('reports', {
+        keyPath: 'id',
+        autoIncrement: true,
+      })
+      objectStore.createIndex('id', 'id', { unique: false })
+      */
+    db.createObjectStore('users', { autoIncrement: true })
+    db.createObjectStore('compiled', { autoIncrement: true })
+    db.createObjectStore('imported', { autoIncrement: true })
+
+    console.log('Database setup complete')
+  }
+
+  /* ------------------------------------------------------ */
+  /* DATABASE MANIPULATION */
   /* ------------------------------------------------------ */
 
   // Data insertion
@@ -304,6 +287,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   compiledForm.onsubmit = addData
   importForm.onsubmit = addImportedData
+
+  /* ------------------------------------------------------ */
+  /* VIEW SELECTION */
+  /* ------------------------------------------------------ */
+
+  const wall = document.querySelector('.wall')
+  const loginForm = document.querySelector('#login')
+  const nav = document.querySelector('nav')
+  const navBtn = document.querySelectorAll('.nav__btn')
+  const views = document.querySelectorAll('.view')
+
+  // THIS IS NOT A TRUE LOGIN FORM!
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault()
+    // Get login parameters
+    const username = document.querySelector('#username').value
+    const password = document.querySelector('#password').value
+    // Allow/deny access
+    if (username && username === password) {
+      wall.classList.add('hidden')
+      nav.classList.remove('hidden')
+      views[0].classList.remove('hidden')
+    } else {
+      alert('Accesso negato')
+    }
+  })
+
+  // Navigation buttons behaviour
+  navBtn.forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault()
+      // Get selected view from clicked link
+      const selectedView = e.target.getAttribute('data-link')
+      // Change buttons appearance
+      navBtn.forEach(item => {
+        if (item.getAttribute('data-link') === selectedView) {
+          item.classList.add('nav__btn--selected')
+        } else {
+          item.classList.remove('nav__btn--selected')
+        }
+      })
+      // Show only selected view
+      views.forEach(item => {
+        if (item.id === selectedView) {
+          item.classList.remove('hidden')
+        } else {
+          item.classList.add('hidden')
+        }
+      })
+    })
+  })
 
   /* ------------------------------------------------------ */
   /* PAGE UNLOAD */
