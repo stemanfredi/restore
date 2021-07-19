@@ -1,17 +1,9 @@
 'use strict'
 
 // Check for IndexedDB support
-if (
-  !(
-    window.indexedDB ||
-    window.mozIndexedDB ||
-    window.webkitIndexedDB ||
-    window.msIndexedDB
-  )
-) {
-  alert(
-    'Questo browser non supporta IndexedDB: impossibile accedere al database'
-  )
+if (!window.indexedDB) {
+  alert(`Questo browser non supporta IndexedDB.
+Impossibile accedere al database`)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
