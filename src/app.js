@@ -1,12 +1,5 @@
 'use strict'
 
-// Check for IndexedDB support
-if (!window.indexedDB) {
-  alert(
-    'Questo browser non supporta IndexedDB.\nImpossibile accedere al database.'
-  )
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------------------------------ */
   /* TABLES */
@@ -280,15 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const compiled = []
     let objectStore = db.transaction(['compiled']).objectStore('compiled')
 
-    objectStore.openCursor().onsuccess = e => {
+    objectStore.openCursor(IDBKeyRange.upper, 'prev').onsuccess = e => {
       let cursor = e.target.result
 
       if (cursor) {
-        compiled.unshift(cursor.value)
+        compiled.push(cursor.value)
+        if (cursor.key === 1) {
+          searchTable.innerHTML = ''
+          generateTable(searchTable, compiled)
+        }
         cursor.continue()
       }
-      searchTable.innerHTML = ''
-      generateTable(searchTable, compiled)
     }
   }
 
