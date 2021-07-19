@@ -1,5 +1,17 @@
 'use strict'
 
+window.indexedDB =
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB
+
+if (!window.indexedDB) {
+  alert(
+    'Questo browser non supporta IndexedDB: impossibile accedere al database'
+  )
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------------------------------ */
   /* TABLES */
