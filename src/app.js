@@ -2,8 +2,9 @@
 
 // Check for IndexedDB support
 if (!window.indexedDB) {
-  alert(`Questo browser non supporta IndexedDB.
-Impossibile accedere al database`)
+  alert(
+    'Questo browser non supporta IndexedDB.\nImpossibile accedere al database.'
+  )
 }
 
 document.addEventListener('DOMContentLoaded', () => {
