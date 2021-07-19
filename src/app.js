@@ -1,12 +1,14 @@
 'use strict'
 
-window.indexedDB =
-  window.indexedDB ||
-  window.mozIndexedDB ||
-  window.webkitIndexedDB ||
-  window.msIndexedDB
-
-if (!window.indexedDB) {
+// Check for IndexedDB support
+if (
+  !(
+    window.indexedDB ||
+    window.mozIndexedDB ||
+    window.webkitIndexedDB ||
+    window.msIndexedDB
+  )
+) {
   alert(
     'Questo browser non supporta IndexedDB: impossibile accedere al database'
   )
