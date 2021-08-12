@@ -83,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
       /(?<=^RMKS\/DESCRIZIONE EFFETTI AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:NATURA E CAUSA AVARIA:$|\s*DENOMINAZIONE (?:EC|ES):\s|COMMENTI:$|SIGA\/))/m,
     natura:
       /(?<=^NATURA E CAUSA AVARIA:\r?\n)[\s\S]*?(?=\+?\/*\r?\n(?:\s*DENOMINAZIONE (?:EC|ES):\s|COMMENTI:$|SIGA\/))/m,
-    eCRiparato:
+    interventoEC:
       /(?<=\r?\n)\s*DENOMINAZIONE EC:\s[\s\S]*?(?=\+?\/*\r?\n(?:\s*DENOMINAZIONE ES:\s|COMMENTI:$|SIGA\/))/m,
-    eSRiparati:
+    interventoES:
       /(?<=\r?\n)\s*DENOMINAZIONE ES:\s[\s\S]*?(?=\r?\n(?:COMMENTI:$|SIGA\/))/m,
     commenti: /(?<=^COMMENTI:\r?\n)[\s\S]*?(?=\/*\r?\nSIGA\/)/m,
     siga: /(?<=^SIGA\/)[\s\S]*?(?=\/{2}\r?\n)/m,
